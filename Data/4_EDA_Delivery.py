@@ -15,7 +15,7 @@ def load_data():
             CSV_PATH,
             quiet=False
         )
-    return pd.read_csv(CSV_PATH)
+    return pd.read_csv(CSV_PATH, encoding="latin1")
     
 df = load_data()
 
