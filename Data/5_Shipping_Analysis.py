@@ -1,0 +1,38 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("../Data/APL_Logistics.csv", encoding="latin1")
+
+# Delay Gap
+df["Delay_Gap"] = (
+    df["Days for shipping (real)"]
+    - df["Days for shipment (scheduled)"]
+)
+
+# Shipping mode analysis
+mode_analysis = df.groupby("Shipping Mode").agg(
+    Total_Orders=("Shipping Mode", "count"),
+    Average_Delay=("Delay_Gap", "mean"),
+    Late_Risk=("Late_delivery_risk", "mean")
+).reset_index()
+
+mode_analysis["Late_Risk"] = mode_analysis["Late_Risk"] * 100
+
+print(mode_analysis)
+
+#---------------------------------------------------
+plt.figure(figsize=(8, 5))
+
+plt.bar(
+    mode_analysis["Shipping Mode"],
+    mode_analysis["Average_Delay"]
+)
+
+plt.title("Average Delivery Delay by Shipping Mode")
+plt.xlabel("Shipping Mode")
+plt.ylabel("Average Delay (Days)")
+
+plt.xticks(rotation=30)
+
+plt.tight_layout()
+plt.show()
