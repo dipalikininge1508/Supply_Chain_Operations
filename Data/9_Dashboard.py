@@ -51,7 +51,7 @@ def load_data():
             quiet=False
         )
 
-    return pd.read_csv(CSV_PATH)
+    df = pd.read_csv(CSV_PATH, encoding="latin1")
 
     df["Delay_Gap"] = (
         df["Days for shipping (real)"]
@@ -74,7 +74,6 @@ def load_data():
     )
 
     return df
-
 
 df = load_data()
 
