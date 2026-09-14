@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import joblib
+import gdown
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
@@ -22,10 +23,16 @@ from sklearn.ensemble import RandomForestClassifier
 # 1. LOAD DATASET
 # ============================================================
 
-df = pd.read_csv(
-    "APL_Logistics.csv",
-    encoding="latin1"
-)
+file_id = "1WIncON4DKmSUIqdttb-MD0vAhvfQutbM"
+csv_path = "data/APL_Logistics.csv"
+
+os.makedirs("data", exist_ok=True)
+
+if not os.path.exists(csv_path):
+    url = f"https://drive.google.com/uc?id={file_id}"
+    gdown.download(url, csv_path, quiet=False)
+
+df = pd.read_csv(csv_path, encoding="latin1")
 
 print("Dataset loaded successfully!")
 print("Original Shape:", df.shape)
